@@ -61,7 +61,8 @@ enum cpu_type
 	CPU_ANY = 0,
 	CPU_RTL8196B,
 	CPU_NEW,
-	CPU_OTHERS
+	CPU_OTHERS,
+	CPU_RTL8197F,
 };
 
 struct signature
@@ -92,6 +93,11 @@ const static struct signature sig_known[] =
 		.type	= DATA_KERNEL,
 		.cpu	= CPU_OTHERS,
 		.sig	= "csys"
+	},
+	{
+		.type	= DATA_KERNEL,
+		.cpu	= CPU_RTL8197F,
+		.sig	= "H601"
 	},
 	{
 		.type	= DATA_ROOTFS,
@@ -185,6 +191,9 @@ static enum cpu_type resolve_cpu_type(const char *str)
 
 	if (!strcasecmp(str, "rtl8196b"))
 		return CPU_RTL8196B;
+
+	if (!strcasecmp(str, "rtl8197f"))
+		return CPU_RTL8197F;
 
 	if (!strcasecmp(str, "new"))
 		return CPU_NEW;
