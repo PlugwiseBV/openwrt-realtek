@@ -86,6 +86,11 @@ const static struct signature sig_known[] =
 	},
 	{
 		.type	= DATA_KERNEL,
+		.cpu	= CPU_RTL8197F,
+		.sig	= "H601"
+	},
+	{
+		.type	= DATA_KERNEL,
 		.cpu	= CPU_NEW,
 		.sig	= "cs6c"
 	},
@@ -93,11 +98,6 @@ const static struct signature sig_known[] =
 		.type	= DATA_KERNEL,
 		.cpu	= CPU_OTHERS,
 		.sig	= "csys"
-	},
-	{
-		.type	= DATA_KERNEL,
-		.cpu	= CPU_RTL8197F,
-		.sig	= "H601"
 	},
 	{
 		.type	= DATA_ROOTFS,

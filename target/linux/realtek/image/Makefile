@@ -37,7 +37,7 @@ define Build/cvimg-kernel
         $(call Build/cvimg, \
                 -e $(CVIMG_LOADER_START_ADDR) \
                 -b $(CVIMG_KERNEL_BURN_ADDR) \
-                -c new \
+                -c $(CVIMG_CPUFLAG) \
                 -t kernel \
                 $(1))
 endef
@@ -46,7 +46,7 @@ define Build/cvimg-fw
         $(call Build/cvimg, \
                 -e $(CVIMG_LOADER_START_ADDR) \
                 -b $(CVIMG_KERNEL_BURN_ADDR) \
-                -c new \
+                -c $(CVIMG_CPUFLAG) \
                 -t fw \
                 $(1))
 endef
@@ -142,6 +142,7 @@ define Device/DIR822C1
   KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
   CVIMG_KERNEL_BURN_ADDR := 0x30000
   CVIMG_LOADER_START_ADDR := 0x81000000
+  CVIMG_CPUFLAG := new
   IMAGES := factory.bin sysupgrade.bin
   IMAGE/factory.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | cvimg-pad-rootfs
   IMAGE/sysupgrade.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | pad-rootfs
@@ -163,6 +164,7 @@ define Device/RE708
   KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
   CVIMG_KERNEL_BURN_ADDR := 0x30000
   CVIMG_LOADER_START_ADDR := 0x81000000
+  CVIMG_CPUFLAG := new
   IMAGES := factory.bin sysupgrade.bin
   IMAGE/factory.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | cvimg-pad-rootfs
   IMAGE/sysupgrade.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | pad-rootfs
@@ -180,6 +182,7 @@ define Device/GWR1200AC
   KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
   CVIMG_KERNEL_BURN_ADDR := 0x30000
   CVIMG_LOADER_START_ADDR := 0x80A00000
+  CVIMG_CPUFLAG := new
   IMAGES := factory.bin sysupgrade.bin
   IMAGE/factory.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | cvimg-pad-rootfs
   IMAGE/sysupgrade.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | pad-rootfs
@@ -213,6 +216,7 @@ define Device/ACTIONRG1200
   KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
   CVIMG_KERNEL_BURN_ADDR := 0x30000
   CVIMG_LOADER_START_ADDR := 0x80A00000
+  CVIMG_CPUFLAG := new
   IMAGES := factory.bin sysupgrade.bin
   IMAGE/factory.bin = append-kernel | pad-offset 64k 16 | append-rootfs | pad-rootfs -x 16 | cvimg-kernel -T
   IMAGE/sysupgrade.bin = append-kernel | pad-offset 64k 16 | append-rootfs | pad-rootfs -x 16 | cvimg-kernel -S
@@ -231,11 +235,30 @@ define Device/ACTIONRF1200
   KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
   CVIMG_KERNEL_BURN_ADDR := 0x30000
   CVIMG_LOADER_START_ADDR := 0x80A00000
+  CVIMG_CPUFLAG := new
   IMAGES := factory.bin sysupgrade.bin
   IMAGE/factory.bin = append-kernel | pad-offset 64k 16 | append-rootfs | pad-rootfs -x 16 | cvimg-kernel -T
   IMAGE/sysupgrade.bin = append-kernel | pad-offset 64k 16 | append-rootfs | pad-rootfs -x 16 | cvimg-kernel -S
 endef
 TARGET_DEVICES += ACTIONRF1200
+
+define Device/kinkan-dvk
+  $(Device/RealtekDTS)
+  DEVICE_DTS := 8DEV_KINKAN_DVK
+  DEVICE_TITLE := 8devices Kinkan DVK
+  SUPPORTED_DEVICES := kinkan-dvk
+  IMAGE_SIZE := 3904k
+  DEV_PROFILE := 8DEV_KINKAN_DVK
+  CMDLINE := console=ttyS0,38400 root=/dev/mtdblock3
+  KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
+  CVIMG_KERNEL_BURN_ADDR := 0x80000
+  CVIMG_LOADER_START_ADDR := 0x81000000
+  CVIMG_CPUFLAG := new
+  IMAGES := factory.bin sysupgrade.bin
+  IMAGE/factory.bin    = append-kernel | cvimg-kernel | append-cvimg-rootfs
+  IMAGE/sysupgrade.bin = append-kernel | cvimg-kernel | append-cvimg-rootfs
+endef
+TARGET_DEVICES += kinkan-dvk
 endif
 
 ifeq ($(SUBTARGET),rtl8196e)
@@ -250,6 +273,7 @@ define Device/GWR300N
   KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
   CVIMG_KERNEL_BURN_ADDR := 0x18000
   CVIMG_LOADER_START_ADDR := 0x81000000
+  CVIMG_CPUFLAG := new
   IMAGES := factory.bin sysupgrade.bin
   IMAGE/factory.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | cvimg-pad-rootfs
   IMAGE/sysupgrade.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | pad-rootfs
@@ -267,6 +291,7 @@ define Device/RE172
   KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
   CVIMG_KERNEL_BURN_ADDR := 0x10000
   CVIMG_LOADER_START_ADDR := 0x81000000
+  CVIMG_CPUFLAG := new
   IMAGES := factory.bin sysupgrade.bin
   IMAGE/factory.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | cvimg-pad-rootfs
   IMAGE/sysupgrade.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | pad-rootfs
@@ -284,6 +309,7 @@ define Device/RE707
   KERNEL := kernel-bin | append-dtb | lzma | loader-cmdline-compile
   CVIMG_KERNEL_BURN_ADDR := 0x20000
   CVIMG_LOADER_START_ADDR := 0x81000000
+  CVIMG_CPUFLAG := new
   IMAGES := factory.bin sysupgrade.bin
   IMAGE/factory.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | cvimg-pad-rootfs
   IMAGE/sysupgrade.bin = append-kernel | append-fake-rootfs | append-rootfs | cvimg-kernel | pad-rootfs
